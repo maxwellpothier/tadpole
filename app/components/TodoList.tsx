@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -19,6 +19,7 @@ import {
 import { useTasks } from "../hooks/useTasks";
 import TodoItem from "./TodoItem";
 import TodoForm from "./TodoForm";
+import ArchiveToggle from "./ArchiveToggle";
 
 export default function TodoList() {
   const {
@@ -31,6 +32,8 @@ export default function TodoList() {
     reorderTasks,
   } = useTasks();
 
+  const [showArchived, setShowArchived] = useState(false);
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -38,22 +41,27 @@ export default function TodoList() {
     })
   );
 
-  // Separate active and completed tasks
+  // Filter by archived status, then separate active and completed
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) => task.archived === showArchived);
+  }, [tasks, showArchived]);
+
   const { activeTasks, completedTasks } = useMemo(() => {
-    const active = tasks.filter((task) => !task.completed);
-    const completed = tasks.filter((task) => task.completed);
+    const active = filteredTasks.filter((task) => !task.completed);
+    const completed = filteredTasks.filter((task) => task.completed);
     return { activeTasks: active, completedTasks: completed };
-  }, [tasks]);
+  }, [filteredTasks]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (!over || active.id === over.id) return;
 
-    const oldIndex = tasks.findIndex((task) => task.id === active.id);
-    const newIndex = tasks.findIndex((task) => task.id === over.id);
+    // Use filteredTasks for reordering
+    const oldIndex = filteredTasks.findIndex((task) => task.id === active.id);
+    const newIndex = filteredTasks.findIndex((task) => task.id === over.id);
 
-    const reordered = arrayMove(tasks, oldIndex, newIndex);
+    const reordered = arrayMove(filteredTasks, oldIndex, newIndex);
     reorderTasks(reordered);
   };
 
@@ -88,12 +96,20 @@ export default function TodoList() {
         <TodoForm onSubmit={createTask} />
       </div>
 
-      {tasks.length === 0 ? (
+      <div className="flex justify-between items-center">
+        <ArchiveToggle checked={showArchived} onChange={setShowArchived} />
+      </div>
+
+      {filteredTasks.length === 0 ? (
         <div className="border border-gray-200 rounded-lg p-12 text-center bg-white">
           <h3 className="text-sm font-medium text-gray-900 mb-1">
-            No tasks yet
+            {showArchived ? "No archived tasks" : "No tasks yet"}
           </h3>
-          <p className="text-sm text-gray-500">Add your first task to get started</p>
+          <p className="text-sm text-gray-500">
+            {showArchived
+              ? "Archive tasks to see them here"
+              : "Add your first task to get started"}
+          </p>
         </div>
       ) : (
         <div className="space-y-4">

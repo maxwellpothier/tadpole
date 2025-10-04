@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Trash2, Pencil, GripVertical } from "lucide-react";
+import { Trash2, Pencil, GripVertical, Archive, ArchiveRestore } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { Task, UpdateTaskInput } from "../types";
@@ -40,6 +40,10 @@ export default function TodoItem({ task, onUpdate, onDelete }: TodoItemProps) {
 
   const handleToggleComplete = () => {
     onUpdate(task.id, { completed: !task.completed });
+  };
+
+  const handleToggleArchive = () => {
+    onUpdate(task.id, { archived: !task.archived });
   };
 
   const handleBlur = (e: React.FocusEvent) => {
@@ -138,6 +142,13 @@ export default function TodoItem({ task, onUpdate, onDelete }: TodoItemProps) {
             title="Edit"
           >
             <Pencil size={16} />
+          </button>
+          <button
+            onClick={handleToggleArchive}
+            className="text-gray-400 hover:text-blue-500 transition-colors"
+            title={task.archived ? "Unarchive" : "Archive"}
+          >
+            {task.archived ? <ArchiveRestore size={16} /> : <Archive size={16} />}
           </button>
           <button
             onClick={() => onDelete(task.id)}
