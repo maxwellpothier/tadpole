@@ -26,7 +26,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Title is required" }, { status: 400 });
     }
 
-    // Get the highest position to add to the end
     const lastTask = await prisma.task.findFirst({
       where: { archived: false, completed: false },
       orderBy: { position: "desc" },

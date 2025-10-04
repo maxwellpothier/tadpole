@@ -1,15 +1,26 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+type TaskUpdateData = {
+  updatedAt: Date;
+  title?: string;
+  description?: string | null;
+  position?: number;
+  archived?: boolean;
+  completed?: boolean;
+  completedAt?: Date | null;
+};
+
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { title, description, completed, archived, position } = body;
 
-    const updateData: any = { updatedAt: new Date() };
+    const updateData: TaskUpdateData = { updatedAt: new Date() };
 
     if (title !== undefined) updateData.title = title.trim();
     if (description !== undefined)
@@ -33,7 +44,7 @@ export async function PATCH(
     }
 
     const task = await prisma.task.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData,
     });
 
@@ -49,11 +60,12 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.task.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ success: true });
