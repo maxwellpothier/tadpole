@@ -13,8 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "🐋 Tadpole",
+  title: "Tadpole",
   description: "Start small. Grow bigger. Get stuff done.",
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
