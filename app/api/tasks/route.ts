@@ -10,8 +10,26 @@ export async function GET(request: Request) {
     return NextResponse.json(tasks);
   } catch (error) {
     console.error("Failed to fetch tasks:", error);
+
+    // Check if it's a database connection error
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to fetch tasks";
+
+    if (
+      errorMessage.includes("Can't reach database") ||
+      errorMessage.includes("prisma")
+    ) {
+      return NextResponse.json(
+        {
+          error: "Database connection failed. Please check DATABASE_URL.",
+          details: errorMessage,
+        },
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Failed to fetch tasks" },
+      { error: "Failed to fetch tasks", details: errorMessage },
       { status: 500 }
     );
   }
