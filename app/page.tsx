@@ -8,7 +8,7 @@ export default function Home() {
           <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-1">
             Tadpole
           </h1>
-          <p className="text-sm text-gray-500">Minimal task management</p>
+          <p className="text-sm text-gray-500">Start small. Grow bigger. Get stuff done.</p>
         </header>
         <TodoList />
       </div>
