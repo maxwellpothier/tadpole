@@ -18,7 +18,7 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { title, description, completed, archived, position } = body;
+    const { title, description, completed, archived, position, tagIds } = body;
 
     const updateData: TaskUpdateData = { updatedAt: new Date() };
 
@@ -43,9 +43,33 @@ export async function PATCH(
       }
     }
 
+    // Handle tag updates if provided
+    if (tagIds !== undefined) {
+      // Delete existing tags and recreate
+      await prisma.taskTag.deleteMany({
+        where: { taskId: id },
+      });
+
+      if (tagIds.length > 0) {
+        await prisma.taskTag.createMany({
+          data: tagIds.map((tagId: string) => ({
+            taskId: id,
+            tagId,
+          })),
+        });
+      }
+    }
+
     const task = await prisma.task.update({
       where: { id },
       data: updateData,
+      include: {
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json(task);

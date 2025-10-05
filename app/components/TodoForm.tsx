@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { Plus } from "lucide-react";
-import type { CreateTaskInput } from "../types";
+import type { CreateTaskInput, Tag } from "../types";
+import TagInput from "./TagInput";
+import { useTags } from "../hooks/useTags";
 
 interface TodoFormProps {
   onSubmit: (input: CreateTaskInput) => Promise<void>;
@@ -11,19 +13,26 @@ interface TodoFormProps {
 export default function TodoForm({ onSubmit }: TodoFormProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [showDescription, setShowDescription] = useState(false);
+
+  const { tags, createTag } = useTags();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
 
+    console.log("Form submitting with selectedTags:", selectedTags);
+
     await onSubmit({
       title: title.trim(),
       description: description.trim() || undefined,
+      tagIds: selectedTags.map((t) => t.id),
     });
 
     setTitle("");
     setDescription("");
+    setSelectedTags([]);
     setShowDescription(false);
   };
 
@@ -49,13 +58,21 @@ export default function TodoForm({ onSubmit }: TodoFormProps) {
       </div>
 
       {showDescription && (
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Add a description (optional)..."
-          className="w-full bg-white text-gray-900 placeholder-gray-400 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10 focus:outline-none resize-none transition-all"
-          rows={2}
-        />
+        <>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Add a description (optional)..."
+            className="w-full bg-white text-gray-900 placeholder-gray-400 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10 focus:outline-none resize-none transition-all"
+            rows={2}
+          />
+          <TagInput
+            availableTags={tags}
+            selectedTags={selectedTags}
+            onTagsChange={setSelectedTags}
+            onCreateTag={createTag}
+          />
+        </>
       )}
     </form>
   );

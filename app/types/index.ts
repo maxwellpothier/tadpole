@@ -1,3 +1,10 @@
+export interface Tag {
+  id: string;
+  name: string;
+  color: string;
+  createdAt: string;
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -8,11 +15,13 @@ export interface Task {
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
+  tags: { tag: Tag }[];
 }
 
 export interface CreateTaskInput {
   title: string;
   description?: string;
+  tagIds?: string[];
 }
 
 export interface UpdateTaskInput {
@@ -21,4 +30,10 @@ export interface UpdateTaskInput {
   completed?: boolean;
   archived?: boolean;
   position?: number;
+  tagIds?: string[];
+}
+
+export interface CreateTagInput {
+  name: string;
+  color: string;
 }

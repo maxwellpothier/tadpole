@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Trash2, Pencil, GripVertical, Archive, ArchiveRestore } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import type { Task, UpdateTaskInput } from "../types";
+import type { Task, UpdateTaskInput, Tag } from "../types";
+import TagInput from "./TagInput";
+import { useTags } from "../hooks/useTags";
+import { getTextColor } from "../utils/colorUtils";
 
 interface TodoItemProps {
   task: Task;
@@ -16,6 +19,20 @@ export default function TodoItem({ task, onUpdate, onDelete }: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description || "");
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(
+    task.tags.map((t) => t.tag)
+  );
+
+  const { tags, createTag } = useTags();
+
+  // Sync local state with task prop when editing starts
+  useEffect(() => {
+    if (isEditing) {
+      setTitle(task.title);
+      setDescription(task.description || "");
+      setSelectedTags(task.tags.map((t) => t.tag));
+    }
+  }, [isEditing, task]);
 
   const {
     attributes,
@@ -33,7 +50,11 @@ export default function TodoItem({ task, onUpdate, onDelete }: TodoItemProps) {
 
   const handleSave = async () => {
     if (title.trim()) {
-      await onUpdate(task.id, { title, description });
+      await onUpdate(task.id, {
+        title,
+        description,
+        tagIds: selectedTags.map((t) => t.id),
+      });
       setIsEditing(false);
     }
   };
@@ -49,11 +70,13 @@ export default function TodoItem({ task, onUpdate, onDelete }: TodoItemProps) {
   const handleBlur = (e: React.FocusEvent) => {
     // Only save if clicking outside the edit form
     const currentTarget = e.currentTarget;
+    // Increase timeout to ensure dropdown interactions complete
     setTimeout(() => {
       if (!currentTarget.contains(document.activeElement)) {
+        console.log("Blur detected, saving task");
         handleSave();
       }
-    }, 0);
+    }, 100);
   };
 
   return (
@@ -107,9 +130,16 @@ export default function TodoItem({ task, onUpdate, onDelete }: TodoItemProps) {
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full bg-white text-gray-900 px-2 py-1 text-sm border border-gray-200 rounded focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10 focus:outline-none resize-none transition-all"
                 rows={2}
+                placeholder="Add a description (optional)..."
                 onKeyDown={(e) => {
                   if (e.key === "Escape") setIsEditing(false);
                 }}
+              />
+              <TagInput
+                availableTags={tags}
+                selectedTags={selectedTags}
+                onTagsChange={setSelectedTags}
+                onCreateTag={createTag}
               />
             </div>
           ) : (
@@ -129,6 +159,22 @@ export default function TodoItem({ task, onUpdate, onDelete }: TodoItemProps) {
                 >
                   {task.description}
                 </p>
+              )}
+              {task.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {task.tags.map(({ tag }) => (
+                    <span
+                      key={tag.id}
+                      className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium"
+                      style={{
+                        backgroundColor: tag.color,
+                        color: getTextColor(tag.color)
+                      }}
+                    >
+                      {tag.name}
+                    </span>
+                  ))}
+                </div>
               )}
             </div>
           )}

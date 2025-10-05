@@ -5,6 +5,13 @@ export async function GET(request: Request) {
   try {
     const tasks = await prisma.task.findMany({
       orderBy: { position: "asc" },
+      include: {
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json(tasks);
@@ -38,7 +45,9 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { title, description } = body;
+    const { title, description, tagIds } = body;
+
+    console.log("Creating task with data:", { title, description, tagIds });
 
     if (!title || title.trim().length === 0) {
       return NextResponse.json({ error: "Title is required" }, { status: 400 });
@@ -56,8 +65,24 @@ export async function POST(request: Request) {
         title: title.trim(),
         description: description?.trim() || null,
         position: newPosition,
+        tags: tagIds && tagIds.length > 0
+          ? {
+              create: tagIds.map((tagId: string) => ({
+                tag: { connect: { id: tagId } },
+              })),
+            }
+          : undefined,
+      },
+      include: {
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
       },
     });
+
+    console.log("Created task:", task);
 
     return NextResponse.json(task, { status: 201 });
   } catch (error) {
