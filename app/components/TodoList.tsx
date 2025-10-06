@@ -82,8 +82,8 @@ export default function TodoList() {
         <p className="text-sm text-red-700 mb-4">{error}</p>
         {error.includes("DATABASE_URL") && (
           <p className="text-xs text-red-600">
-            Make sure the DATABASE_URL environment variable is set in your Vercel
-            project settings.
+            Make sure the DATABASE_URL environment variable is set in your
+            Vercel project settings.
           </p>
         )}
       </div>

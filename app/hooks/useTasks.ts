@@ -16,7 +16,9 @@ export function useTasks() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || `Failed to fetch tasks: ${response.status}`);
+        throw new Error(
+          errorData.error || `Failed to fetch tasks: ${response.status}`
+        );
       }
 
       const data = await response.json();
@@ -30,7 +32,8 @@ export function useTasks() {
         setError("Invalid data received from server");
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to fetch tasks";
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to fetch tasks";
       console.error("Failed to fetch tasks:", errorMessage);
       setError(errorMessage);
       setTasks([]); // Set to empty array on error

@@ -20,11 +20,12 @@ This project was completed in approximately 8 hours of focused development time,
 
 **Hours 6-7:** Frontend architecture design and implementation with modular component structure and @dnd-kit integration
 
-**Hour 8:** Tag system implementation including color-coded categorization and autocomplete search *(in progress on `tags` branch)*
+**Hour 8:** Tag system implementation including color-coded categorization and autocomplete search _(in progress on `tags` branch)_
 
 ## Features
 
 ### Core Functionality
+
 - **Complete CRUD Operations** - Full create, read, update, and delete functionality for task management
 - **Advanced Task Management** - Support for task titles, detailed descriptions, and completion status tracking
 - **Drag-and-Drop Interface** - Intuitive task reordering powered by @dnd-kit library
@@ -33,10 +34,12 @@ This project was completed in approximately 8 hours of focused development time,
 - **Dynamic Branding** - Server-rendered emoji rotation for consistent user experience
 
 ### In Development (Tags Branch)
+
 - **Intelligent Tagging System** - Color-coded tags with autocomplete search and centralized tag library
 - **Adaptive Color Contrast** - Automatic text color optimization based on tag background for accessibility compliance
 
 ### User Experience
+
 - **Professional Interface Design** - Clean, minimal aesthetic inspired by Notion, Anthropic, and OpenAI
 - **Context-Aware Actions** - Action buttons revealed on hover to reduce visual clutter
 - **Inline Editing** - Seamless editing experience without modal dialogs or page navigation
@@ -47,6 +50,7 @@ This project was completed in approximately 8 hours of focused development time,
 ## Installation and Setup
 
 ### System Requirements
+
 - Node.js version 18.0 or higher
 - npm or yarn package manager
 - CockroachDB cloud account (free tier available at https://cockroachlabs.cloud)
@@ -54,12 +58,14 @@ This project was completed in approximately 8 hours of focused development time,
 ### Installation Steps
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd full-stack-todo
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
@@ -67,11 +73,13 @@ This project was completed in approximately 8 hours of focused development time,
 3. **Configure environment variables**
 
    Create a `.env` file in the project root with the following configuration:
+
    ```env
    DATABASE_URL="postgresql://username:password@host:26257/defaultdb?sslmode=verify-full"
    ```
 
 4. **Initialize the database**
+
    ```bash
    # Generate Prisma client
    npx prisma generate
@@ -81,6 +89,7 @@ This project was completed in approximately 8 hours of focused development time,
    ```
 
 5. **Start the development server**
+
    ```bash
    npm run dev
    ```
@@ -92,6 +101,7 @@ This project was completed in approximately 8 hours of focused development time,
 ## Technology Stack
 
 ### Frontend Technologies
+
 - **Next.js 15.5.4** - React-based framework utilizing App Router architecture
 - **React 18+** - Component-based UI library with modern hooks API
 - **TypeScript** - Statically typed superset of JavaScript for enhanced developer experience
@@ -100,11 +110,13 @@ This project was completed in approximately 8 hours of focused development time,
 - **lucide-react** - Consistent icon system
 
 ### Backend Infrastructure
+
 - **Next.js API Routes** - Serverless API endpoints with edge runtime support
 - **Prisma ORM** - Type-safe database client with schema migration support
 - **CockroachDB Serverless** - Distributed, cloud-native SQL database
 
 ### Deployment and Hosting
+
 - **Vercel** - Serverless deployment platform optimized for Next.js applications
 
 ## Project Architecture
@@ -152,6 +164,7 @@ full-stack-todo/
 ## Database Schema
 
 ### Task Model (Main Branch)
+
 ```prisma
 model Task {
   id          String    @id @default(uuid())
@@ -169,6 +182,7 @@ model Task {
 ### Tag Models (Tags Branch Only)
 
 **Tag Model**
+
 ```prisma
 model Tag {
   id        String    @id @default(uuid())
@@ -180,6 +194,7 @@ model Tag {
 ```
 
 **TaskTag Junction Table**
+
 ```prisma
 model TaskTag {
   taskId String
@@ -194,12 +209,14 @@ model TaskTag {
 ## API Reference
 
 ### Tasks
+
 - `GET /api/tasks` - List all tasks
 - `POST /api/tasks` - Create new task
 - `PATCH /api/tasks/[id]` - Update task (title, description, completed, archived, position)
 - `DELETE /api/tasks/[id]` - Delete task
 
-### Tags *(Tags branch only)*
+### Tags _(Tags branch only)_
+
 - `GET /api/tags` - List all tags
 - `POST /api/tags` - Create new tag (name, color)
 - `DELETE /api/tags/[id]` - Delete tag
@@ -207,6 +224,7 @@ model TaskTag {
 ## Architecture and Design Decisions
 
 ### User Interface Design
+
 - **Minimalist Aesthetic** - Interface design follows principles from industry-leading productivity applications (Notion, Linear)
 - **Progressive Disclosure** - Action buttons revealed contextually on hover to minimize cognitive load
 - **Accessibility Compliance** - Automated color contrast calculation ensures WCAG readability standards
@@ -214,12 +232,14 @@ model TaskTag {
 - **Server-Side Rendering** - Dynamic content generation on server to prevent hydration mismatches
 
 ### System Architecture
+
 - **Client-Side Filtering** - Local state filtering reduces API overhead and improves response time
 - **Normalized Data Model** - Tag entities stored independently for reusability across tasks
 - **Optimistic Concurrency Control** - Client-side mutations with automatic rollback on server errors
 - **End-to-End Type Safety** - TypeScript types propagated from database schema through API to UI components
 
 ### Technology Selection Rationale
+
 - **@dnd-kit** - Selected for superior TypeScript support and active maintenance compared to alternatives
 - **Prisma ORM** - Chosen for mature ecosystem and excellent developer experience
 - **CockroachDB** - Distributed architecture with generous free tier and PostgreSQL compatibility
@@ -228,6 +248,7 @@ model TaskTag {
 ## Current Feature Set
 
 ### Implemented Functionality (Main Branch)
+
 - Complete CRUD operations for task management
 - Inline editing with automatic save on blur
 - Drag-and-drop task reordering with position persistence
@@ -241,6 +262,7 @@ model TaskTag {
 - Custom favicon implementation
 
 ### In Development (Tags Branch)
+
 - Tag creation, management, and association
 - 8 preset color options for tag categorization
 - Tag autocomplete with search functionality
@@ -249,6 +271,7 @@ model TaskTag {
 ## Development Roadmap
 
 ### Phase 2: Enhanced Filtering and Search
+
 - Full-text search across task titles and descriptions
 - Keyboard shortcut system (Cmd/Ctrl+K for search)
 - Debounced search input for performance optimization
@@ -257,6 +280,7 @@ model TaskTag {
 - Bulk operations (archive all completed tasks)
 
 ### Phase 3: Advanced Features
+
 - Priority level system (High/Medium/Low)
 - Focus mode for distraction-free task management
 - Hierarchical subtask support
@@ -272,17 +296,20 @@ model TaskTag {
 ### Feature Testing Guide (Main Branch)
 
 1. **Task Creation**
+
    - Select the title input field
    - Enter task title and optional description
    - Submit to create task
 
 2. **Task Editing**
+
    - Hover over task to reveal action buttons
    - Click edit icon to enter edit mode
    - Modify title or description
    - Click outside the task card to auto-save
 
 3. **Task Reordering**
+
    - Hover over task to reveal drag handle
    - Click and drag task to desired position
    - Release to persist new order
@@ -302,7 +329,8 @@ model TaskTag {
 
 ## Known Issues and Limitations
 
-No critical issues currently identified. Please report bugs via the issue tracker.
+On mobile, the reordering and actions on hover (edit, archive, delete) are not working.
+Errors are being logged to the console. Ideally, we'd use a package like `react-toastify` to make that error handling accessible to the end user.
 
 ## Contributing
 
@@ -317,6 +345,7 @@ This project is licensed under the MIT License.
 This application was developed as an educational project to explore modern web development technologies and best practices.
 
 **Technology Credits:**
+
 - Interface design inspired by Notion, Linear, Anthropic, and OpenAI
 - Drag-and-drop functionality powered by @dnd-kit
 - Built with Next.js 15, React 18, Prisma, and CockroachDB

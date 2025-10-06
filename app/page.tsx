@@ -19,7 +19,9 @@ export default function Home() {
               Tadpole
             </span>
           </h1>
-          <p className="text-sm text-gray-500">Start small. Grow bigger. Get stuff done.</p>
+          <p className="text-sm text-gray-500">
+            Start small. Grow bigger. Get stuff done.
+          </p>
         </header>
         <TodoList />
       </div>
