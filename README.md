@@ -6,6 +6,20 @@ A modern, full-stack task management application built with Next.js, React, Tail
 
 Tadpole is designed to streamline task management workflows through a clean, minimalist interface inspired by industry-leading productivity tools. The application leverages modern web technologies to deliver a responsive, performant user experience with real-time updates and seamless interactions.
 
+## Development Timeline
+
+This project was completed in approximately 8 hours of focused development time, with emphasis on learning modern full-stack technologies and best practices:
+
+**Hour 1:** Planning session and documentation generation, including PRD and technical implementation guides (available in `/notes`)
+
+**Hours 2-3:** Database layer setup with Prisma and CockroachDB, including research on distributed database architecture and migration strategies
+
+**Hours 4-5:** RESTful API development with Next.js 15 App Router, focusing on request/response patterns and data validation
+
+**Hours 6-7:** Frontend architecture design and implementation with modular component structure and @dnd-kit integration
+
+**Hour 8:** Tag system implementation including color-coded categorization and autocomplete search *(in progress on `tags` branch)*
+
 ## Features
 
 ### Core Functionality
