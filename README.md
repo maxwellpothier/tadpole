@@ -1,41 +1,43 @@
-# 🐸 Tadpole
+# Tadpole
 
-**Start small. Grow bigger. Get stuff done.**
+A modern, full-stack task management application built with Next.js, React, Tailwind CSS, and CockroachDB. Tadpole provides an intuitive interface for managing tasks with advanced features including drag-and-drop reordering, intelligent tagging, and archival capabilities.
 
-A modern, full-stack todo application built with Next.js, React, Tailwind CSS, and CockroachDB. Tadpole combines a clean, Notion-inspired interface with powerful task management features including drag-and-drop reordering, tags, and archiving.
+## Overview
 
-## ✨ Features
+Tadpole is designed to streamline task management workflows through a clean, minimalist interface inspired by industry-leading productivity tools. The application leverages modern web technologies to deliver a responsive, performant user experience with real-time updates and seamless interactions.
+
+## Features
 
 ### Core Functionality
-- **✅ Full CRUD Operations** - Create, read, update, and delete tasks
-- **🎯 Task Management** - Title, description, and completion tracking
-- **🏷️ Smart Tagging System** - Color-coded tags with autocomplete and reusable tag library
-- **🎨 Color-Adaptive Tags** - Automatic text color adjustment for optimal readability
-- **↕️ Drag-and-Drop Reordering** - Smooth, intuitive task prioritization with @dnd-kit
-- **📦 Archive Functionality** - Clean separation between active and archived tasks
-- **⚡ Optimistic UI Updates** - Instant feedback for all actions
-- **🎲 Random Emoji Header** - Fresh random emoji on every page load
+- **Complete CRUD Operations** - Full create, read, update, and delete functionality for task management
+- **Advanced Task Management** - Support for task titles, detailed descriptions, and completion status tracking
+- **Intelligent Tagging System** - Color-coded tags with autocomplete search and centralized tag library
+- **Adaptive Color Contrast** - Automatic text color optimization based on tag background for accessibility compliance
+- **Drag-and-Drop Interface** - Intuitive task reordering powered by @dnd-kit library
+- **Archive Management** - Separate view for archived tasks to maintain workspace organization
+- **Optimistic UI Updates** - Client-side state updates with automatic rollback on server errors
+- **Dynamic Branding** - Server-rendered emoji rotation for consistent user experience
 
 ### User Experience
-- **Clean, Minimal Design** - Inspired by Notion, Anthropic, and OpenAI interfaces
-- **Hover-Only Actions** - Edit, archive, and delete buttons appear on hover
-- **Inline Editing** - Quick edits without leaving the task view
-- **Smart Edit Mode** - Click anywhere outside to save changes
-- **Keyboard Shortcuts** - Enter to save, Escape to cancel
-- **Error Handling** - Graceful degradation with user-friendly error messages
+- **Professional Interface Design** - Clean, minimal aesthetic inspired by Notion, Anthropic, and OpenAI
+- **Context-Aware Actions** - Action buttons revealed on hover to reduce visual clutter
+- **Inline Editing** - Seamless editing experience without modal dialogs or page navigation
+- **Auto-Save Functionality** - Automatic save on blur with configurable delay
+- **Keyboard Navigation** - Full keyboard support including Enter to save and Escape to cancel
+- **Comprehensive Error Handling** - Graceful error states with clear user feedback
 
-## 🚀 Getting Started
+## Installation and Setup
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- CockroachDB account (free tier available)
+### System Requirements
+- Node.js version 18.0 or higher
+- npm or yarn package manager
+- CockroachDB cloud account (free tier available at https://cockroachlabs.cloud)
 
-### Installation
+### Installation Steps
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone <repository-url>
    cd full-stack-todo
    ```
 
@@ -44,50 +46,50 @@ A modern, full-stack todo application built with Next.js, React, Tailwind CSS, a
    npm install
    ```
 
-3. **Set up environment variables**
+3. **Configure environment variables**
 
-   Create a `.env` file in the root directory:
+   Create a `.env` file in the project root with the following configuration:
    ```env
    DATABASE_URL="postgresql://username:password@host:26257/defaultdb?sslmode=verify-full"
    ```
 
-4. **Set up the database**
+4. **Initialize the database**
    ```bash
-   # Generate Prisma Client
+   # Generate Prisma client
    npx prisma generate
 
-   # Push schema to database
+   # Synchronize database schema
    npx prisma db push
    ```
 
-5. **Run the development server**
+5. **Start the development server**
    ```bash
    npm run dev
    ```
 
-6. **Open your browser**
+6. **Access the application**
 
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Open your browser and navigate to `http://localhost:3000`
 
-## 🏗️ Tech Stack
+## Technology Stack
 
-### Frontend
-- **Next.js 15.5.4** - React framework with App Router
-- **React 18+** - UI library with hooks
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-- **@dnd-kit** - Drag-and-drop functionality
-- **lucide-react** - Beautiful icon library
+### Frontend Technologies
+- **Next.js 15.5.4** - React-based framework utilizing App Router architecture
+- **React 18+** - Component-based UI library with modern hooks API
+- **TypeScript** - Statically typed superset of JavaScript for enhanced developer experience
+- **Tailwind CSS** - Utility-first CSS framework for rapid UI development
+- **@dnd-kit** - Modular, performant drag-and-drop library
+- **lucide-react** - Consistent icon system
 
-### Backend
-- **Next.js API Routes** - Serverless API endpoints
-- **Prisma** - Type-safe ORM
-- **CockroachDB Serverless** - Distributed SQL database
+### Backend Infrastructure
+- **Next.js API Routes** - Serverless API endpoints with edge runtime support
+- **Prisma ORM** - Type-safe database client with schema migration support
+- **CockroachDB Serverless** - Distributed, cloud-native SQL database
 
-### Deployment
-- **Vercel** - Optimized for Next.js applications
+### Deployment and Hosting
+- **Vercel** - Serverless deployment platform optimized for Next.js applications
 
-## 📁 Project Structure
+## Project Architecture
 
 ```
 full-stack-todo/
@@ -127,7 +129,7 @@ full-stack-todo/
     └── technical-implementation.md
 ```
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Task Model
 ```prisma
@@ -168,7 +170,7 @@ model TaskTag {
 }
 ```
 
-## 🔌 API Endpoints
+## API Reference
 
 ### Tasks
 - `GET /api/tasks` - List all tasks with tags
@@ -181,111 +183,116 @@ model TaskTag {
 - `POST /api/tags` - Create new tag (name, color)
 - `DELETE /api/tags/[id]` - Delete tag
 
-## 🎨 Design Decisions
+## Architecture and Design Decisions
 
-### UI/UX
-- **Clean Aesthetic**: Moved away from glassmorphism to a cleaner Notion/Linear-inspired design
-- **Hover Interactions**: Edit and delete buttons only appear on hover to reduce visual clutter
-- **Color Contrast**: Automatic text color calculation ensures tags are always readable
-- **Optimistic Updates**: All mutations update the UI immediately before server confirmation
-- **Random Emoji**: Server-side generation prevents hydration issues
+### User Interface Design
+- **Minimalist Aesthetic** - Interface design follows principles from industry-leading productivity applications (Notion, Linear)
+- **Progressive Disclosure** - Action buttons revealed contextually on hover to minimize cognitive load
+- **Accessibility Compliance** - Automated color contrast calculation ensures WCAG readability standards
+- **Optimistic UI Pattern** - Immediate client-side updates with server synchronization and error recovery
+- **Server-Side Rendering** - Dynamic content generation on server to prevent hydration mismatches
 
-### Architecture
-- **Client-Side Filtering**: Archive toggle filters tasks locally to avoid unnecessary API calls
-- **Separate Tag Management**: Tags are global entities, reusable across all tasks
-- **Optimistic UI**: All mutations use optimistic updates with automatic revert on failure
-- **Type Safety**: Full TypeScript coverage with strict typing from database to UI
+### System Architecture
+- **Client-Side Filtering** - Local state filtering reduces API overhead and improves response time
+- **Normalized Data Model** - Tag entities stored independently for reusability across tasks
+- **Optimistic Concurrency Control** - Client-side mutations with automatic rollback on server errors
+- **End-to-End Type Safety** - TypeScript types propagated from database schema through API to UI components
 
-### Technical Choices
-- **@dnd-kit over react-beautiful-dnd**: Better TypeScript support and active maintenance
-- **Prisma over Drizzle**: More mature ecosystem despite notes recommending Drizzle
-- **CockroachDB**: Serverless, distributed SQL with excellent free tier
-- **Task Model**: Used `Task` instead of `Todo` for cleaner naming
+### Technology Selection Rationale
+- **@dnd-kit** - Selected for superior TypeScript support and active maintenance compared to alternatives
+- **Prisma ORM** - Chosen for mature ecosystem and excellent developer experience
+- **CockroachDB** - Distributed architecture with generous free tier and PostgreSQL compatibility
+- **Semantic Naming** - `Task` model naming preferred over `Todo` for professional context
 
-## ✅ Completed Features
+## Current Feature Set
 
-- [x] Task CRUD operations
-- [x] Inline editing with auto-save
-- [x] Drag-and-drop reordering
-- [x] Archive/unarchive functionality
-- [x] Tag creation and management
-- [x] Color-coded tag system with 8 preset colors
-- [x] Tag autocomplete and search
-- [x] Automatic text color for accessibility
-- [x] Completed task tracking
-- [x] Position-based ordering
-- [x] Optimistic UI updates
-- [x] Error handling and validation
-- [x] Responsive design
-- [x] Random emoji header
-- [x] Custom whale emoji favicon
+### Implemented Functionality
+- Complete CRUD operations for task management
+- Inline editing with automatic save on blur
+- Drag-and-drop task reordering with position persistence
+- Archive and restoration capabilities
+- Tag creation, management, and association
+- 8 preset color options for tag categorization
+- Tag autocomplete with search functionality
+- WCAG-compliant automatic text color contrast
+- Task completion status tracking
+- Position-based task ordering
+- Optimistic UI updates with error recovery
+- Comprehensive error handling and validation
+- Fully responsive design
+- Dynamic branding elements
+- Custom favicon implementation
 
-## 🚧 Upcoming Features
+## Development Roadmap
 
-### Phase 2 (Near-term)
-- [ ] Search and filter functionality
-- [ ] Keyboard shortcuts (Cmd+K for search)
-- [ ] Debounced search input
-- [ ] Filter by tag
-- [ ] Filter by completion status
-- [ ] Bulk actions (archive all completed)
+### Phase 2: Enhanced Filtering and Search
+- Full-text search across task titles and descriptions
+- Keyboard shortcut system (Cmd/Ctrl+K for search)
+- Debounced search input for performance optimization
+- Tag-based filtering
+- Status-based filtering (active/completed/all)
+- Bulk operations (archive all completed tasks)
 
-### Phase 3 (Long-term)
-- [ ] Priority levels (High/Medium/Low)
-- [ ] Focus mode
-- [ ] Subtasks
-- [ ] Due dates
-- [ ] Recurring tasks
-- [ ] User authentication
-- [ ] Dark mode toggle
-- [ ] Data export/import
-- [ ] Mobile native apps
+### Phase 3: Advanced Features
+- Priority level system (High/Medium/Low)
+- Focus mode for distraction-free task management
+- Hierarchical subtask support
+- Due date tracking and visualization
+- Recurring task automation
+- Multi-user authentication and authorization
+- Theme customization including dark mode
+- Data export and import capabilities (JSON, CSV)
+- Native mobile applications (iOS, Android)
 
-## 🧪 Testing Locally
+## Testing and Verification
 
-1. **Create a task**
-   - Click the title input, add a title and optional description
-   - Add tags by typing in "Add tags..." field
-   - Click "Add" to create
+### Feature Testing Guide
 
-2. **Edit a task**
-   - Hover over a task and click the edit (pencil) icon
-   - Modify title, description, or tags
-   - Click outside to save
+1. **Task Creation**
+   - Select the title input field
+   - Enter task title and optional description
+   - Add tags using the "Add tags..." field with autocomplete
+   - Submit to create task
 
-3. **Reorder tasks**
-   - Hover over a task to reveal the drag handle
-   - Click and drag to reorder
+2. **Task Editing**
+   - Hover over task to reveal action buttons
+   - Click edit icon to enter edit mode
+   - Modify title, description, or associated tags
+   - Click outside the task card to auto-save
 
-4. **Archive tasks**
-   - Hover over a task and click the archive icon
-   - Click "Show Archived" to view archived tasks
-   - Click unarchive icon to restore
+3. **Task Reordering**
+   - Hover over task to reveal drag handle
+   - Click and drag task to desired position
+   - Release to persist new order
 
-5. **Tag management**
-   - When creating/editing, click "Add tags..."
-   - Type to search existing tags or create new ones
-   - Select a color for new tags
-   - Click "Create" to add to your tag library
+4. **Archive Management**
+   - Hover over task and select archive icon
+   - Toggle "Show Archived" to switch between views
+   - Use unarchive icon to restore tasks
 
-## 🐛 Known Issues
+5. **Tag System**
+   - Access tag input during task creation or editing
+   - Search existing tags by typing
+   - Create new tags with custom colors (8 preset options)
+   - Tags are added to centralized library for reuse
 
-- None currently reported
+## Known Issues and Limitations
 
-## 🤝 Contributing
+No critical issues currently identified. Please report bugs via the issue tracker.
 
-This is a learning project, but suggestions and improvements are welcome!
+## Contributing
 
-## 📝 License
+While this project serves primarily as a learning exercise, contributions and suggestions are welcome. Please open an issue to discuss proposed changes before submitting pull requests.
 
-MIT
+## License
 
-## 🙏 Acknowledgments
+This project is licensed under the MIT License.
 
-- Design inspiration from Notion, Linear, Anthropic, and OpenAI
-- Built as a learning project to explore Next.js 15, Prisma, and CockroachDB
-- Special thanks to the @dnd-kit team for an excellent drag-and-drop library
+## Acknowledgments
 
----
+This application was developed as an educational project to explore modern web development technologies and best practices.
 
-**Built with ❤️ and lots of ☕**
+**Technology Credits:**
+- Interface design inspired by Notion, Linear, Anthropic, and OpenAI
+- Drag-and-drop functionality powered by @dnd-kit
+- Built with Next.js 15, React 18, Prisma, and CockroachDB
