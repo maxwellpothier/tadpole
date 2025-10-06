@@ -1,6 +1,8 @@
 # Tadpole
 
-A modern, full-stack task management application built with Next.js, React, Tailwind CSS, and CockroachDB. Tadpole provides an intuitive interface for managing tasks with advanced features including drag-and-drop reordering, intelligent tagging, and archival capabilities.
+A modern, full-stack task management application built with Next.js, React, Tailwind CSS, and CockroachDB. Tadpole provides an intuitive interface for managing tasks with drag-and-drop reordering and archival capabilities.
+
+> **Note:** Tag functionality is currently under development in the `tags` branch and is not yet available in the main branch.
 
 ## Overview
 
@@ -25,12 +27,14 @@ This project was completed in approximately 8 hours of focused development time,
 ### Core Functionality
 - **Complete CRUD Operations** - Full create, read, update, and delete functionality for task management
 - **Advanced Task Management** - Support for task titles, detailed descriptions, and completion status tracking
-- **Intelligent Tagging System** - Color-coded tags with autocomplete search and centralized tag library
-- **Adaptive Color Contrast** - Automatic text color optimization based on tag background for accessibility compliance
 - **Drag-and-Drop Interface** - Intuitive task reordering powered by @dnd-kit library
 - **Archive Management** - Separate view for archived tasks to maintain workspace organization
 - **Optimistic UI Updates** - Client-side state updates with automatic rollback on server errors
 - **Dynamic Branding** - Server-rendered emoji rotation for consistent user experience
+
+### In Development (Tags Branch)
+- **Intelligent Tagging System** - Color-coded tags with autocomplete search and centralized tag library
+- **Adaptive Color Contrast** - Automatic text color optimization based on tag background for accessibility compliance
 
 ### User Experience
 - **Professional Interface Design** - Clean, minimal aesthetic inspired by Notion, Anthropic, and OpenAI
@@ -109,7 +113,7 @@ This project was completed in approximately 8 hours of focused development time,
 full-stack-todo/
 ├── app/
 │   ├── api/
-│   │   ├── tags/
+│   │   ├── tags/                # Tags branch only
 │   │   │   ├── route.ts          # GET, POST tags
 │   │   │   └── [id]/
 │   │   │       └── route.ts      # DELETE tag
@@ -119,17 +123,17 @@ full-stack-todo/
 │   │           └── route.ts      # PATCH, DELETE task
 │   ├── components/
 │   │   ├── ArchiveToggle.tsx    # Toggle archived view
-│   │   ├── TagInput.tsx         # Tag creation & selection
+│   │   ├── TagInput.tsx         # Tags branch only
 │   │   ├── TodoForm.tsx         # Task creation form
 │   │   ├── TodoItem.tsx         # Individual task card
 │   │   └── TodoList.tsx         # Main task container
 │   ├── hooks/
-│   │   ├── useTags.ts           # Tag state management
+│   │   ├── useTags.ts           # Tags branch only
 │   │   └── useTasks.ts          # Task state management
 │   ├── types/
 │   │   └── index.ts             # TypeScript interfaces
 │   ├── utils/
-│   │   └── colorUtils.ts        # Color contrast utilities
+│   │   └── colorUtils.ts        # Tags branch only
 │   ├── layout.tsx               # Root layout & metadata
 │   └── page.tsx                 # Homepage
 ├── lib/
@@ -143,9 +147,11 @@ full-stack-todo/
     └── technical-implementation.md
 ```
 
+> Components and APIs marked with "Tags branch only" are not available in the main branch.
+
 ## Database Schema
 
-### Task Model
+### Task Model (Main Branch)
 ```prisma
 model Task {
   id          String    @id @default(uuid())
@@ -157,11 +163,12 @@ model Task {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   completedAt DateTime?
-  tags        TaskTag[]
 }
 ```
 
-### Tag Model
+### Tag Models (Tags Branch Only)
+
+**Tag Model**
 ```prisma
 model Tag {
   id        String    @id @default(uuid())
@@ -172,7 +179,7 @@ model Tag {
 }
 ```
 
-### TaskTag Junction Table
+**TaskTag Junction Table**
 ```prisma
 model TaskTag {
   taskId String
@@ -187,12 +194,12 @@ model TaskTag {
 ## API Reference
 
 ### Tasks
-- `GET /api/tasks` - List all tasks with tags
+- `GET /api/tasks` - List all tasks
 - `POST /api/tasks` - Create new task
-- `PATCH /api/tasks/[id]` - Update task (title, description, completed, archived, position, tags)
+- `PATCH /api/tasks/[id]` - Update task (title, description, completed, archived, position)
 - `DELETE /api/tasks/[id]` - Delete task
 
-### Tags
+### Tags *(Tags branch only)*
 - `GET /api/tags` - List all tags
 - `POST /api/tags` - Create new tag (name, color)
 - `DELETE /api/tags/[id]` - Delete tag
@@ -220,15 +227,11 @@ model TaskTag {
 
 ## Current Feature Set
 
-### Implemented Functionality
+### Implemented Functionality (Main Branch)
 - Complete CRUD operations for task management
 - Inline editing with automatic save on blur
 - Drag-and-drop task reordering with position persistence
 - Archive and restoration capabilities
-- Tag creation, management, and association
-- 8 preset color options for tag categorization
-- Tag autocomplete with search functionality
-- WCAG-compliant automatic text color contrast
 - Task completion status tracking
 - Position-based task ordering
 - Optimistic UI updates with error recovery
@@ -236,6 +239,12 @@ model TaskTag {
 - Fully responsive design
 - Dynamic branding elements
 - Custom favicon implementation
+
+### In Development (Tags Branch)
+- Tag creation, management, and association
+- 8 preset color options for tag categorization
+- Tag autocomplete with search functionality
+- WCAG-compliant automatic text color contrast for tags
 
 ## Development Roadmap
 
@@ -260,18 +269,17 @@ model TaskTag {
 
 ## Testing and Verification
 
-### Feature Testing Guide
+### Feature Testing Guide (Main Branch)
 
 1. **Task Creation**
    - Select the title input field
    - Enter task title and optional description
-   - Add tags using the "Add tags..." field with autocomplete
    - Submit to create task
 
 2. **Task Editing**
    - Hover over task to reveal action buttons
    - Click edit icon to enter edit mode
-   - Modify title, description, or associated tags
+   - Modify title or description
    - Click outside the task card to auto-save
 
 3. **Task Reordering**
@@ -283,6 +291,8 @@ model TaskTag {
    - Hover over task and select archive icon
    - Toggle "Show Archived" to switch between views
    - Use unarchive icon to restore tasks
+
+### Additional Testing (Tags Branch)
 
 5. **Tag System**
    - Access tag input during task creation or editing
